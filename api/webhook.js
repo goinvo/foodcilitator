@@ -1,11 +1,15 @@
 const axios = require("axios");
 
 export default async function handler(req, res) {
+ // Allow GET requests for URL validation (ClickSend pings the URL to verify it)
+if (req.method === "GET") {
+    return res.status(200).send("OK");
+  }
+  
   // Only accept POST requests from ClickSend
   if (req.method !== "POST") {
     return res.status(405).send("Method Not Allowed");
   }
-
   try {
     // 1. Extract the sender's phone number and image URL from ClickSend's payload
     const senderNumber = req.body.from;
