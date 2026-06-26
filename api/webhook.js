@@ -68,11 +68,12 @@ module.exports = async function handler(req, res) {
     );
 
     const analysisResult = claudeResponse.data.content[0].text;
+    console.log("Claude response:", analysisResult);
 
     // Send reply via Twilio
     await sendSMS(senderNumber, analysisResult);
 
-    return res.status(200).send("OK");
+    return res.status(200).json({ result: analysisResult });
 
   } catch (error) {
     console.error("Error:", error.response?.data || error.message);
