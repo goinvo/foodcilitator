@@ -52,7 +52,7 @@ export default async function handler(req, res) {
               },
               {
                 type: "text",
-                text: "What grocery product is shown in this image? Identify it as specifically as possible in 1-2 sentences.",
+                text: "What grocery product is shown in this image? Reply in one short sentence, maximum 100 characters.",
               },
             ],
           },
