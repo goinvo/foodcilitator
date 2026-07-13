@@ -17,7 +17,7 @@ module.exports = async function handler(req, res) {
 
     if (numMedia === 0 || !imageUrl) {
       // No image attached — send a helpful reply
-      await sendSMS(senderNumber, "Please send a photo of a grocery item and I'll identify it for you!");
+      await sendSMS(senderNumber, "Hi! I'm Foodcilitator. Text me a photo of any grocery item and I'll explain why it costs what it does, trace the supply chain, and suggest a way to take civic action.");
       return res.status(200).send("OK");
     }
 
@@ -32,12 +32,16 @@ module.exports = async function handler(req, res) {
     const base64Image = Buffer.from(imageResponse.data).toString("base64");
     const mimeType = imageResponse.headers["content-type"] || "image/jpeg";
 
-    // Send image to Claude
+    // Send image to Claude for full Foodcilitator analysis
     const claudeResponse = await axios.post(
       "https://api.anthropic.com/v1/messages",
       {
         model: "claude-sonnet-4-6",
-        max_tokens: 1024,
+        max_tokens: 800,
+        system: `You are Foodcilitator, an SMS service. When sent a photo of a grocery item:
+1. Identify the item in one short sentence.
+2. Explain in 2-3 sentences why it currently costs what it does — tariffs, weather, supply chain issues, fuel costs, or corporate consolidation.
+Reply in plain text only, no markdown. Keep the total under 400 characters. If you cannot identify a grocery item, say so and ask for a clearer photo.`,
         messages: [
           {
             role: "user",
@@ -52,7 +56,7 @@ module.exports = async function handler(req, res) {
               },
               {
                 type: "text",
-                text: "What grocery product is shown in this image? Reply in one short sentence, maximum 100 characters.",
+                text: "Analyze this grocery item photo.",
               },
             ],
           },
