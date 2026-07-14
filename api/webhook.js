@@ -23,27 +23,42 @@ module.exports = async function handler(req, res) {
       return res.status(200).send("OK");
     }
 
+    // Look up representatives via 5 Calls API (no key required)
+    const repsRes = await axios.get("https://api.5calls.org/v1/reps", {
+      params: { location: zipMatch[1] },
+    }).catch((err) => {
+      console.error("5 Calls API error:", err.response?.data || err.message);
+      return null;
+    });
+
+    if (!repsRes) {
+      await sendSMS(from, "I couldn't look up your representatives right now. Please try again in a moment.");
+      return res.status(200).send("OK");
+    }
+
+    const repList = repsRes.data.representatives.map((r) =>
+      `${r.area}: ${r.name} (${r.party}) - ${r.phone}`
+    ).join("\n");
+
     const claudeRes = await axios.post(
       "https://api.anthropic.com/v1/messages",
       {
         model: "claude-sonnet-4-6",
         max_tokens: 500,
-        system: `You are Heard, a civic SMS assistant. Given a constituent's concern and zip code, identify the single government official with jurisdiction and generate a call script.
-
-Determine the right level of government (local, state, or federal) based on the nature of the concern, then identify the specific official for that zip code.
+        system: `You are Heard, a civic SMS assistant. Given a constituent's concern and their list of representatives, identify the single official with jurisdiction and generate a call script.
 
 Respond ONLY with valid JSON in this exact format with no markdown or explanation:
 {
   "repName": "Full name",
-  "repTitle": "Official title and jurisdiction",
-  "officePhone": "office phone number from your knowledge, or null if unsure",
+  "repTitle": "Official title",
+  "officePhone": "phone number from the list",
   "summary": "One sentence describing the concern and why it matters",
   "script": "Plain-text call script under 280 characters. Start: Hi, I am a constituent calling about [issue]. End with a specific ask."
 }`,
         messages: [
           {
             role: "user",
-            content: `Concern: ${body}`,
+            content: `Concern: ${body}\n\nRepresentatives:\n${repList}`,
           },
         ],
       },
