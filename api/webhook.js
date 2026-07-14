@@ -13,7 +13,7 @@ module.exports = async function handler(req, res) {
 
   try {
     if (body.toLowerCase() === "report") {
-      await sendSMS(from, "Hi, I'm Heard! Message and data rates may apply. Reply STOP to opt out anytime.\n\nTo get started, text your concern and zip code together — e.g.: 'The crosswalk near my house has been broken for months. 02476'");
+      await sendSMS(from, "Hi, I'm Heard! Msg & data rates may apply. Reply STOP to opt out.\n\nText your concern + zip code. Ex: The crosswalk near my house has been broken for months. 02476");
       return res.status(200).send("OK");
     }
 
