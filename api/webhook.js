@@ -2,12 +2,11 @@ const axios = require("axios");
 const { Redis } = require("@upstash/redis");
 const arlingtonOfficials = require("./arlington-officials.json");
 
-const redis = new Redis({
-  url: process.env.KV_REST_API_URL,
-  token: process.env.KV_REST_API_TOKEN,
-});
-
 module.exports = async function handler(req, res) {
+  const redis = new Redis({
+    url: process.env.KV_REST_API_URL,
+    token: process.env.KV_REST_API_TOKEN,
+  });
   if (req.method === "GET") {
     return res.status(200).send("OK");
   }
