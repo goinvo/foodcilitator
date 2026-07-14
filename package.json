@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/goinvo/foodcilitator#readme",
   "dependencies": {
+    "@upstash/redis": "^1.38.0",
     "axios": "^1.18.1"
   }
 }

@@ -1,0 +1,72 @@
+[
+  {
+    "area": "Public Works",
+    "name": "Michael Rademacher",
+    "title": "Director of Public Works",
+    "phone": "(781) 316-3104",
+    "email": "PubWorks@town.arlington.ma.us"
+  },
+  {
+    "area": "Planning & Community Development",
+    "name": "Claire Ricker",
+    "title": "Director of Planning & Community Development",
+    "phone": "(781) 316-3092",
+    "email": "cricker@town.arlington.ma.us"
+  },
+  {
+    "area": "Inspectional Services",
+    "name": "Stephen Bazarian",
+    "title": "Building Inspector",
+    "phone": "(781) 316-3391",
+    "email": "sbazarian@town.arlington.ma.us"
+  },
+  {
+    "area": "Natural Resources - Parks",
+    "name": "Kevin Naughton",
+    "title": "Parks Supervisor",
+    "phone": "(781) 316-3301",
+    "email": "knaughton@town.arlington.ma.us"
+  },
+  {
+    "area": "Natural Resources - Trees",
+    "name": "Tim Lecuivre",
+    "title": "Tree Warden",
+    "phone": "(781) 316-3301",
+    "email": "tlecuivre@town.arlington.ma.us"
+  },
+  {
+    "area": "Police",
+    "name": "Juliann Flaherty",
+    "title": "Chief of Police",
+    "phone": "(781) 316-3900",
+    "email": "jflaherty@town.arlington.ma.us"
+  },
+  {
+    "area": "Libraries",
+    "name": "Anna Litten",
+    "title": "Library Director",
+    "phone": "(781) 316-3200",
+    "email": "alitten@minlib.net"
+  },
+  {
+    "area": "Human Rights Commission",
+    "name": "Human Rights Commission",
+    "title": "Human Rights Commission",
+    "phone": "(781) 316-3250",
+    "email": "ahrc@town.arlington.ma.us"
+  },
+  {
+    "area": "Mental Health",
+    "name": "Christina Valeri",
+    "title": "Mental Health Clinician",
+    "phone": "(781) 316-3947",
+    "email": "cvaleri@town.arlington.ma.us"
+  },
+  {
+    "area": "Trash & Recycling",
+    "name": "WM (Waste Management)",
+    "title": "Trash & Recycling Collection",
+    "phone": "1-800-972-4545",
+    "email": null
+  }
+]
