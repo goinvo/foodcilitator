@@ -1,17 +1,304 @@
 [
   {
-    "area": "Public Works",
-    "name": "Michael Rademacher",
-    "title": "Director of Public Works",
-    "phone": "(781) 316-3104",
-    "email": "PubWorks@town.arlington.ma.us"
+    "area": "24 Hour Police/Fire Dispatch",
+    "name": "24 Hour Police/Fire Dispatch",
+    "title": "24 Hour Police/Fire Dispatch",
+    "phone": "(781) 643-1212",
+    "email": null
   },
   {
-    "area": "Planning & Community Development",
-    "name": "Claire Ricker",
-    "title": "Director of Planning & Community Development",
-    "phone": "(781) 316-3092",
-    "email": "cricker@town.arlington.ma.us"
+    "area": "24 Hour Public Works Dispatch",
+    "name": "24 Hour Public Works Dispatch",
+    "title": "24 Hour Public Works Dispatch",
+    "phone": "(781) 316-3301",
+    "email": null
+  },
+  {
+    "area": "Inspectional Services",
+    "name": "Michael Ciampa",
+    "title": "Director",
+    "phone": "(781) 316-3386",
+    "email": "mciampa@town.arlington.ma.us"
+  },
+  {
+    "area": "Main Switchboard",
+    "name": "Main Switchboard",
+    "title": "Main Switchboard",
+    "phone": "(781) 316-3000",
+    "email": "webmaster@town.arlington.ma.us"
+  },
+  {
+    "area": "Affordable Housing",
+    "name": "Affordable Housing",
+    "title": "Affordable Housing",
+    "phone": "(781) 316-3090",
+    "email": null
+  },
+  {
+    "area": "Animal Control",
+    "name": "Animal Control",
+    "title": "Animal Control",
+    "phone": "(781) 643-1212",
+    "email": "animalcontrol@town.arlington.ma.us"
+  },
+  {
+    "area": "Arlington Youth Counseling Center (AYCC)",
+    "name": "Stacy Carruth",
+    "title": "Director",
+    "phone": "(781) 316-3259",
+    "email": "scarruth@town.arlington.ma.us"
+  },
+  {
+    "area": "Select Board Administrator",
+    "name": "Ashley Maher",
+    "title": "Select Board Administrator",
+    "phone": "(781) 316-3020",
+    "email": "sbadmin@town.arlington.ma.us"
+  },
+  {
+    "area": "Assessors",
+    "name": "Dana Mann",
+    "title": "Director",
+    "phone": "(781) 316-3050",
+    "email": "assessors@town.arlington.ma.us"
+  },
+  {
+    "area": "Cemetery",
+    "name": "Cemetery",
+    "title": "Cemetery",
+    "phone": "(781) 316-3276",
+    "email": "lcamelio@town.arlington.ma.us"
+  },
+  {
+    "area": "Clerk/Elections",
+    "name": "Juli Brazile",
+    "title": "Town Clerk",
+    "phone": "(781) 316-3070",
+    "email": "townclerk@town.arlington.ma.us"
+  },
+  {
+    "area": "Community Development Block Grant (CDBG)",
+    "name": "Mary Muszynski",
+    "title": "Community Development Block Grant (CDBG)",
+    "phone": "(781) 316-3094",
+    "email": "MMuszynski@town.arlington.ma.us"
+  },
+  {
+    "area": "Community Education",
+    "name": "Community Education",
+    "title": "Community Education",
+    "phone": "(781) 316-3568",
+    "email": null
+  },
+  {
+    "area": "Community Preservation Act Committee",
+    "name": "Christine Bongiorno",
+    "title": "Community Preservation Act Committee",
+    "phone": "(781) 316-3010",
+    "email": null
+  },
+  {
+    "area": "Community Resource Specialist",
+    "name": "Denisa Burt",
+    "title": "Community Resource Specialist",
+    "phone": "(781) 316-3271",
+    "email": "dburt@town.arlington.ma.us (work cell (339) 200-9484)"
+  },
+  {
+    "area": "Comptroller",
+    "name": "Ida Cody",
+    "title": "Comptroller",
+    "phone": "(781) 316-3330",
+    "email": "ICody@town.arlington.ma.us"
+  },
+  {
+    "area": "Conservation",
+    "name": "Conservation",
+    "title": "Conservation",
+    "phone": "(781) 316-3012",
+    "email": "concomm@town.arlington.ma.us"
+  },
+  {
+    "area": "Council on Aging",
+    "name": "Kristine Shah",
+    "title": "Executive Director",
+    "phone": "(781) 316-3400",
+    "email": "kshah@town.arlington.ma.us"
+  },
+  {
+    "area": "Credit Union",
+    "name": "Credit Union",
+    "title": "Credit Union",
+    "phone": "(781) 316-3144",
+    "email": null
+  },
+  {
+    "area": "Criminal Investigations Bureau - Police",
+    "name": "Criminal Investigations Bureau - Police",
+    "title": "Criminal Investigations Bureau - Police",
+    "phone": "(781) 316-3910",
+    "email": null
+  },
+  {
+    "area": "Detectives - Police",
+    "name": "Detectives - Police",
+    "title": "Detectives - Police",
+    "phone": "(781) 316-3910",
+    "email": null
+  },
+  {
+    "area": "Disability Commission",
+    "name": "Disability Commission",
+    "title": "Disability Commission",
+    "phone": "(781) 316-3170",
+    "email": null
+  },
+  {
+    "area": "Diversity, Equity & Inclusion (DEI)",
+    "name": "Ramsha Baluch",
+    "title": "DEI Director",
+    "phone": "(781) 316-3250",
+    "email": "rbaluch@town.arlington.ma.us"
+  },
+  {
+    "area": "Diversity, Equity & Inclusion (DEI)",
+    "name": "Tim Ross",
+    "title": "ADA Coordinator",
+    "phone": "(781) 316-3257",
+    "email": "tross@town.arlington.ma.us"
+  },
+  {
+    "area": "Economic Development",
+    "name": "Katie Luczai",
+    "title": "Economic Development Coordinator",
+    "phone": "(781) 316-3095",
+    "email": "kluczai@town.arlington.ma.us"
+  },
+  {
+    "area": "Engineering Division",
+    "name": "Bill Copithorne",
+    "title": "Town Engineer",
+    "phone": "(781) 316-3320",
+    "email": "wcopithorne@town.arlington.ma.us"
+  },
+  {
+    "area": "Engineering Division - Permitting",
+    "name": "Engineering Division - Permitting",
+    "title": "Engineering Division - Permitting",
+    "phone": "(781) 316-3320",
+    "email": "engpermits@town.arlington.ma.us"
+  },
+  {
+    "area": "Facilities",
+    "name": "Jay McNeil",
+    "title": "Director",
+    "phone": "(781) 316-3110",
+    "email": "jmcneil@town.arlington.ma.us"
+  },
+  {
+    "area": "Family Services Unit",
+    "name": "Inspector Rebecca Gallagher",
+    "title": "Family Services Unit",
+    "phone": "(781) 316-3915",
+    "email": "rgallagher@town.arlington.ma.us"
+  },
+  {
+    "area": "Finance",
+    "name": "Julie Wayman",
+    "title": "Deputy Town Manager/Finance Director",
+    "phone": "(781) 316-3016",
+    "email": "jwayman@town.arlington.ma.us"
+  },
+  {
+    "area": "Fire - Administration",
+    "name": "Fire - Administration",
+    "title": "Fire - Administration",
+    "phone": "(781) 316-3800",
+    "email": null
+  },
+  {
+    "area": "Fire - Chief",
+    "name": "Kevin Kelley",
+    "title": "Fire - Chief",
+    "phone": "(781) 316-3801",
+    "email": "kkelley@town.arlington.ma.us"
+  },
+  {
+    "area": "Fire - EMS Coordinator",
+    "name": "Captain Dan Kerr",
+    "title": "Fire - EMS Coordinator",
+    "phone": "(781) 316-3810",
+    "email": "dkerr@town.arlington.ma.us"
+  },
+  {
+    "area": "Fire - Prevention",
+    "name": "Deputy Chief Ryan Melly",
+    "title": "Fire - Prevention",
+    "phone": "(781) 316-3803",
+    "email": "rmelly@town.arlington.ma.us"
+  },
+  {
+    "area": "Fire - Training",
+    "name": "Captain Martin Conroy",
+    "title": "Fire - Training",
+    "phone": "(781) 316-3816",
+    "email": "mconroy@town.arlington.ma.us"
+  },
+  {
+    "area": "GIS Director",
+    "name": "Susan Brunton",
+    "title": "GIS Director",
+    "phone": "(781) 316-3411",
+    "email": "sbrunton@town.arlington.ma.us"
+  },
+  {
+    "area": "Health & Human Services - Administration",
+    "name": "Colleen Leger",
+    "title": "Director",
+    "phone": "(781) 316-3170",
+    "email": "cleger@town.arlington.ma.us"
+  },
+  {
+    "area": "Highway Division",
+    "name": "Jeff Rikeman",
+    "title": "Supervisor",
+    "phone": "(781) 316-3301",
+    "email": "jrikeman@town.arlington.ma.us"
+  },
+  {
+    "area": "Historic Districts Commission",
+    "name": "Carol Greeley",
+    "title": "Executive Secretary",
+    "phone": "(781) 316-3265",
+    "email": "ahdc@town.arlington.ma.us"
+  },
+  {
+    "area": "Human Resources",
+    "name": "Caryn Malloy",
+    "title": "Director",
+    "phone": "(781) 316-3120",
+    "email": "hr@town.arlington.ma.us"
+  },
+  {
+    "area": "Human Rights Commission",
+    "name": "Human Rights Commission",
+    "title": "Human Rights Commission",
+    "phone": "(781) 316-3250",
+    "email": "ahrc@town.arlington.ma.us"
+  },
+  {
+    "area": "Information Technology",
+    "name": "Patricia Sheppard",
+    "title": "Chief Information Officer",
+    "phone": "(781) 316-3373",
+    "email": "psheppard@town.arlington.ma.us"
+  },
+  {
+    "area": "Inspectional Services",
+    "name": "Inspectional Services",
+    "title": "Inspectional Services",
+    "phone": "(781) 316-3390",
+    "email": "inspectionalservices@town.arlington.ma.us"
   },
   {
     "area": "Inspectional Services",
@@ -21,9 +308,51 @@
     "email": "sbazarian@town.arlington.ma.us"
   },
   {
+    "area": "Inspectional Services",
+    "name": "Tom Reidy",
+    "title": "Building Inspector",
+    "phone": "(781) 316-3395",
+    "email": "treidy@town.arlington.ma.us"
+  },
+  {
+    "area": "Inspector of Wires (Electrical)",
+    "name": "Vincent Lee",
+    "title": "Inspector of Wires (Electrical)",
+    "phone": "(781) 316-3393",
+    "email": "vlee@town.arlington.ma.us"
+  },
+  {
+    "area": "Legal",
+    "name": "Michael Cunningham",
+    "title": "Town Counsel",
+    "phone": "(781) 316-3152",
+    "email": "mcunningham@town.arlington.ma.us"
+  },
+  {
+    "area": "Libraries",
+    "name": "Anna Litten",
+    "title": "Director",
+    "phone": "(781) 316-3200 (Dir. line (781) 316-3201)",
+    "email": "alitten@minlib.net"
+  },
+  {
+    "area": "Mental Health Clinician",
+    "name": "Christina Valeri",
+    "title": "Mental Health Clinician",
+    "phone": "(781) 316-3947",
+    "email": "cvaleri@town.arlington.ma.us"
+  },
+  {
+    "area": "Missed Trash/Recycling Collection - WM",
+    "name": "Missed Trash/Recycling Collection - WM",
+    "title": "Missed Trash/Recycling Collection - WM",
+    "phone": "1-800-972-4545",
+    "email": null
+  },
+  {
     "area": "Natural Resources - Parks",
     "name": "Kevin Naughton",
-    "title": "Parks Supervisor",
+    "title": "Supervisor",
     "phone": "(781) 316-3301",
     "email": "knaughton@town.arlington.ma.us"
   },
@@ -35,38 +364,220 @@
     "email": "tlecuivre@town.arlington.ma.us"
   },
   {
-    "area": "Police",
+    "area": "Planning and Community Development",
+    "name": "Claire Ricker",
+    "title": "Director",
+    "phone": "(781) 316-3092",
+    "email": "cricker@town.arlington.ma.us"
+  },
+  {
+    "area": "Planning and Community Development",
+    "name": "Sarah Suarez",
+    "title": "Assistant Director",
+    "phone": "(781) 316-3096",
+    "email": "ssuarez@town.arlington.ma.us"
+  },
+  {
+    "area": "Plumbing & Gas Inspector",
+    "name": "Fred Whitney",
+    "title": "Plumbing & Gas Inspector",
+    "phone": "(781) 316-3394",
+    "email": "fwhitney@town.arlington.ma.us"
+  },
+  {
+    "area": "Police - Administration",
     "name": "Juliann Flaherty",
     "title": "Chief of Police",
     "phone": "(781) 316-3900",
     "email": "jflaherty@town.arlington.ma.us"
   },
   {
-    "area": "Libraries",
-    "name": "Anna Litten",
-    "title": "Library Director",
-    "phone": "(781) 316-3200",
-    "email": "alitten@minlib.net"
+    "area": "Police - Gun Licensing",
+    "name": "Police - Gun Licensing",
+    "title": "Police - Gun Licensing",
+    "phone": "(781) 316-3943",
+    "email": "firearmsid@town.arlington.ma.us"
   },
   {
-    "area": "Human Rights Commission",
-    "name": "Human Rights Commission",
-    "title": "Human Rights Commission",
-    "phone": "(781) 316-3250",
-    "email": "ahrc@town.arlington.ma.us"
+    "area": "Police - Professional Standards Unit",
+    "name": "Police - Professional Standards Unit",
+    "title": "Police - Professional Standards Unit",
+    "phone": "(781) 316-3961",
+    "email": "bkiernan@town.arlington.ma.us"
   },
   {
-    "area": "Mental Health",
-    "name": "Christina Valeri",
-    "title": "Mental Health Clinician",
-    "phone": "(781) 316-3947",
-    "email": "cvaleri@town.arlington.ma.us"
+    "area": "Police - Records",
+    "name": "Police - Records",
+    "title": "Police - Records",
+    "phone": "(781) 316-3943",
+    "email": "PoliceRecords@town.arlington.ma.us"
   },
   {
-    "area": "Trash & Recycling",
-    "name": "WM (Waste Management)",
-    "title": "Trash & Recycling Collection",
-    "phone": "1-800-972-4545",
+    "area": "Police - School Resource Officer (SRO)",
+    "name": "Bryan White",
+    "title": "Police - School Resource Officer (SRO)",
+    "phone": "(781) 316-3619",
+    "email": "bwhite@town.arlington.ma.us"
+  },
+  {
+    "area": "Prevention Services",
+    "name": "Karen Koretsky",
+    "title": "Manager",
+    "phone": "(781) 316-3193",
+    "email": "kkoretsky@town.arlington.ma.us"
+  },
+  {
+    "area": "Public Health",
+    "name": "Kylee Foley",
+    "title": "Director",
+    "phone": "(781) 316-3170",
+    "email": "boh@town.arlington.ma.us"
+  },
+  {
+    "area": "Public Works - Administration",
+    "name": "Michael Rademacher",
+    "title": "Director",
+    "phone": "(781) 316-3104",
+    "email": "PubWorks@town.arlington.ma.us"
+  },
+  {
+    "area": "Purchasing",
+    "name": "Mary Ellen DeNatale",
+    "title": "Purchasing",
+    "phone": "(781) 316-3003",
+    "email": "mdenatale@town.arlington.ma.us"
+  },
+  {
+    "area": "Recreation Office",
+    "name": "Recreation Office",
+    "title": "Recreation Office",
+    "phone": "(781) 316-3880",
+    "email": "RecOffice@town.arlington.ma.us"
+  },
+  {
+    "area": "Recreation",
+    "name": "Courtney Duggan",
+    "title": "Assistant Director",
+    "phone": "(781) 316-3888",
+    "email": "cmduggan@town.arlington.ma.us"
+  },
+  {
+    "area": "Recreation",
+    "name": "Natasha Waden",
+    "title": "Director",
+    "phone": "(781) 316-3880",
+    "email": "nwaden@town.arlington.ma.us"
+  },
+  {
+    "area": "Recycling/Trash",
+    "name": "Recycling Coordinator",
+    "title": "Recycling/Trash",
+    "phone": "(781) 316-3108",
+    "email": "recycle@town.arlington.ma.us"
+  },
+  {
+    "area": "Rental Room Info",
+    "name": "Rental Room Info",
+    "title": "Rental Room Info",
+    "phone": "(781) 316-3260",
     "email": null
+  },
+  {
+    "area": "Retirement Board",
+    "name": "Rich Greco",
+    "title": "Administrator",
+    "phone": "(781) 316-3370",
+    "email": null
+  },
+  {
+    "area": "School Committee",
+    "name": "Elizabeth Diggins",
+    "title": "Administrative Assistant",
+    "phone": "(781) 316-3540",
+    "email": "ediggins@arlington.k12.ma.us"
+  },
+  {
+    "area": "Schools",
+    "name": "Dr. Elizabeth Homan",
+    "title": "Superintendent",
+    "phone": "(781) 316-3501",
+    "email": "aps_superintendent@arlington.k12.ma.us"
+  },
+  {
+    "area": "Sealer of Weights & Measures - Health & Human Services",
+    "name": "Sealer of Weights & Measures - Health & Human Services",
+    "title": "Sealer of Weights & Measures - Health & Human Services",
+    "phone": "(781) 316-3170",
+    "email": "sealer@town.arlington.ma.us"
+  },
+  {
+    "area": "Sustainability Manager",
+    "name": "Talia Fox",
+    "title": "Sustainability Manager",
+    "phone": "(781) 316-3428",
+    "email": "tfox@town.arlington.ma.us"
+  },
+  {
+    "area": "Town Manager",
+    "name": "Jim Feeney",
+    "title": "Town Manager",
+    "phone": "(781) 316-3010",
+    "email": "jfeeney@town.arlington.ma.us"
+  },
+  {
+    "area": "Town Moderator",
+    "name": "Greg Christiana",
+    "title": "Town Moderator",
+    "phone": "(781) 819-2781",
+    "email": "gchristiana@town.arlington.ma.us"
+  },
+  {
+    "area": "Traffic - Parking",
+    "name": "Traffic - Parking",
+    "title": "Traffic - Parking",
+    "phone": "(781) 316-3944",
+    "email": "traffic@town.arlington.ma.us (parking clerk for tickets/permits: 781-316-3035)"
+  },
+  {
+    "area": "Treasurer-Collector",
+    "name": "Lynn Gallagher",
+    "title": "Treasurer-Collector",
+    "phone": "(781) 316-3030",
+    "email": "treasurer@town.arlington.ma.us"
+  },
+  {
+    "area": "Veterans Services",
+    "name": "Robert C. Donovan",
+    "title": "Veterans Services Director",
+    "phone": "(781) 316-3166",
+    "email": "rdonovan@town.arlington.ma.us"
+  },
+  {
+    "area": "Water/Sewer Division",
+    "name": "Bryan Mount",
+    "title": "Supervisor",
+    "phone": "(781) 316-3301",
+    "email": "bmount@town.arlington.ma.us"
+  },
+  {
+    "area": "Whittemore Robbins House - Health & Human Services",
+    "name": "Whittemore Robbins House - Health & Human Services",
+    "title": "Whittemore Robbins House - Health & Human Services",
+    "phone": "(781) 316-3260",
+    "email": null
+  },
+  {
+    "area": "Youth Services - Health & Human Services",
+    "name": "Youth Services - Health & Human Services",
+    "title": "Youth Services - Health & Human Services",
+    "phone": "(781) 316-3255",
+    "email": "scarruth@town.arlington.ma.us"
+  },
+  {
+    "area": "Zoning Board of Appeals",
+    "name": "Zoning Board of Appeals",
+    "title": "Zoning Board of Appeals",
+    "phone": "(781) 316-3396",
+    "email": "zba@town.arlington.ma.us"
   }
 ]
