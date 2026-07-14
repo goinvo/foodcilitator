@@ -4,61 +4,70 @@ module.exports = async function handler(req, res) {
   if (req.method === "GET") {
     return res.status(200).send("OK");
   }
-
   if (req.method !== "POST") {
     return res.status(405).send("Method Not Allowed");
   }
 
-  try {
-    // Twilio sends form-encoded data, extract the fields
-    const senderNumber = req.body.From;
-    const numMedia = parseInt(req.body.NumMedia || "0");
-    const imageUrl = req.body.MediaUrl0;
+  const from = req.body.From;
+  const body = (req.body.Body || "").trim();
 
-    if (numMedia === 0 || !imageUrl) {
-      // No image attached — send a helpful reply
-      await sendSMS(senderNumber, "Hi! I'm Foodcilitator. Text me a photo of any grocery item and I'll explain why it costs what it does, trace the supply chain, and suggest a way to take civic action.");
+  try {
+    if (body.toLowerCase() === "report") {
+      await sendSMS(from, "Hi, I'm Heard! Message and data rates may apply. Reply STOP to opt out anytime.\n\nTo get started, text your concern and zip code together — e.g.: 'The crosswalk near my house has been broken for months. 02476'");
       return res.status(200).send("OK");
     }
 
-    // Download the image and convert to base64
-    const imageResponse = await axios.get(imageUrl, {
-      responseType: "arraybuffer",
-      auth: {
-        username: process.env.TWILIO_ACCOUNT_SID,
-        password: process.env.TWILIO_AUTH_TOKEN,
-      },
-    });
-    const base64Image = Buffer.from(imageResponse.data).toString("base64");
-    const mimeType = imageResponse.headers["content-type"] || "image/jpeg";
+    // Look up representatives via Google Civic Information API
+    // Extract zip code from the end of the message (last word that looks like a zip)
+    const zipMatch = body.match(/\b(\d{5})\b/);
+    if (!zipMatch) {
+      await sendSMS(from, "Please include your zip code at the end of your message so I can find your representatives.");
+      return res.status(200).send("OK");
+    }
+    const zip = zipMatch[1];
 
-    // Send image to Claude for full Foodcilitator analysis
-    const claudeResponse = await axios.post(
+    const civicRes = await axios.get("https://www.googleapis.com/civicinfo/v2/representatives", {
+      params: { address: zip, key: process.env.GOOGLE_CIVIC_API_KEY },
+    }).catch(() => null);
+
+    if (!civicRes) {
+      await sendSMS(from, "I couldn't look up your representatives right now. Please try again in a moment.");
+      return res.status(200).send("OK");
+    }
+
+    const { offices, officials } = civicRes.data;
+
+    // Build labeled list of officials with phones and jurisdiction level
+    const repList = [];
+    for (const office of offices) {
+      for (const idx of office.officialIndices) {
+        const official = officials[idx];
+        const phone = (official.phones || [])[0] || null;
+        const level = (office.levels || []).join("/") || "unknown";
+        repList.push(`${office.name} [${level}]: ${official.name}${phone ? ` — ${phone}` : " — no phone listed"}`);
+      }
+    }
+
+    // Ask Claude to identify the right rep and generate a call script
+    const claudeRes = await axios.post(
       "https://api.anthropic.com/v1/messages",
       {
         model: "claude-sonnet-4-6",
-        max_tokens: 800,
-        system: `You are Foodcilitator, an SMS service. When sent a photo of a grocery item:
-1. Identify the item in one short sentence.
-2. Explain in 2-3 sentences why it currently costs what it does — tariffs, weather, supply chain issues, fuel costs, or corporate consolidation.
-Reply in plain text only, no markdown. Keep the total under 400 characters. If you cannot identify a grocery item, say so and ask for a clearer photo.`,
+        max_tokens: 500,
+        system: `You are Heard, a civic SMS assistant. Given a constituent's concern and their list of representatives, identify the single official with jurisdiction and generate a call script.
+
+Respond ONLY with valid JSON — no explanation, no markdown — in this exact format:
+{
+  "repName": "Full name",
+  "repTitle": "Official title or office",
+  "officePhone": "phone number exactly as listed, or null if not listed",
+  "summary": "One sentence describing the concern and why it matters",
+  "script": "Plain-text call script under 280 characters. Open with: Hi, I am a constituent calling about [issue]. End with a specific ask."
+}`,
         messages: [
           {
             role: "user",
-            content: [
-              {
-                type: "image",
-                source: {
-                  type: "base64",
-                  media_type: mimeType,
-                  data: base64Image,
-                },
-              },
-              {
-                type: "text",
-                text: "Analyze this grocery item photo.",
-              },
-            ],
+            content: `Constituent concern: ${body}\n\nRepresentatives:\n${repList.join("\n")}`,
           },
         ],
       },
@@ -71,28 +80,27 @@ Reply in plain text only, no markdown. Keep the total under 400 characters. If y
       }
     );
 
-    const analysisResult = claudeResponse.data.content[0].text;
-    console.log("Claude response:", analysisResult);
+    const result = JSON.parse(claudeRes.data.content[0].text);
 
-    // Send reply via Twilio
-    await sendSMS(senderNumber, analysisResult);
+    const msg1 = `${result.repName}, ${result.repTitle}${result.officePhone ? ` — ${result.officePhone}` : ""}.\n\n${result.summary}`;
+    const msg2 = `When you call:\n"${result.script}"`;
 
-    return res.status(200).json({ result: analysisResult });
+    await sendSMS(from, msg1);
+    await sendSMS(from, msg2);
+
+    return res.status(200).send("OK");
 
   } catch (error) {
     console.error("Error:", error.response?.data || error.message);
-    return res.status(500).send("Something went wrong");
+    await sendSMS(from, "Something went wrong on our end. Please try again in a moment.").catch(() => {});
+    return res.status(500).send("Error");
   }
-}
+};
 
 async function sendSMS(to, body) {
   await axios.post(
     `https://api.twilio.com/2010-04-01/Accounts/${process.env.TWILIO_ACCOUNT_SID}/Messages.json`,
-    new URLSearchParams({
-      To: to,
-      From: process.env.TWILIO_PHONE_NUMBER,
-      Body: body,
-    }),
+    new URLSearchParams({ To: to, From: process.env.TWILIO_PHONE_NUMBER, Body: body }),
     {
       auth: {
         username: process.env.TWILIO_ACCOUNT_SID,
