@@ -28,7 +28,10 @@ module.exports = async function handler(req, res) {
 
     const civicRes = await axios.get("https://www.googleapis.com/civicinfo/v2/representatives", {
       params: { address: zip, key: process.env.GOOGLE_CIVIC_API_KEY },
-    }).catch(() => null);
+    }).catch((err) => {
+      console.error("Civic API error:", JSON.stringify(err.response?.data || err.message));
+      return null;
+    });
 
     if (!civicRes) {
       await sendSMS(from, "I couldn't look up your representatives right now. Please try again in a moment.");
