@@ -17,60 +17,33 @@ module.exports = async function handler(req, res) {
       return res.status(200).send("OK");
     }
 
-    // Look up representatives via Google Civic Information API
-    // Extract zip code from the end of the message (last word that looks like a zip)
     const zipMatch = body.match(/\b(\d{5})\b/);
     if (!zipMatch) {
-      await sendSMS(from, "Please include your zip code at the end of your message so I can find your representatives.");
-      return res.status(200).send("OK");
-    }
-    const zip = zipMatch[1];
-
-    const civicRes = await axios.get("https://www.googleapis.com/civicinfo/v2/representatives", {
-      params: { address: zip, key: process.env.GOOGLE_CIVIC_API_KEY },
-    }).catch((err) => {
-      console.error("Civic API error:", JSON.stringify(err.response?.data || err.message));
-      return null;
-    });
-
-    if (!civicRes) {
-      await sendSMS(from, "I couldn't look up your representatives right now. Please try again in a moment.");
+      await sendSMS(from, "Please include your zip code so I can find your representative. Ex: My street light has been out for months. 02476");
       return res.status(200).send("OK");
     }
 
-    const { offices, officials } = civicRes.data;
-
-    // Build labeled list of officials with phones and jurisdiction level
-    const repList = [];
-    for (const office of offices) {
-      for (const idx of office.officialIndices) {
-        const official = officials[idx];
-        const phone = (official.phones || [])[0] || null;
-        const level = (office.levels || []).join("/") || "unknown";
-        repList.push(`${office.name} [${level}]: ${official.name}${phone ? ` — ${phone}` : " — no phone listed"}`);
-      }
-    }
-
-    // Ask Claude to identify the right rep and generate a call script
     const claudeRes = await axios.post(
       "https://api.anthropic.com/v1/messages",
       {
         model: "claude-sonnet-4-6",
         max_tokens: 500,
-        system: `You are Heard, a civic SMS assistant. Given a constituent's concern and their list of representatives, identify the single official with jurisdiction and generate a call script.
+        system: `You are Heard, a civic SMS assistant. Given a constituent's concern and zip code, identify the single government official with jurisdiction and generate a call script.
 
-Respond ONLY with valid JSON — no explanation, no markdown — in this exact format:
+Determine the right level of government (local, state, or federal) based on the nature of the concern, then identify the specific official for that zip code.
+
+Respond ONLY with valid JSON in this exact format with no markdown or explanation:
 {
   "repName": "Full name",
-  "repTitle": "Official title or office",
-  "officePhone": "phone number exactly as listed, or null if not listed",
+  "repTitle": "Official title and jurisdiction",
+  "officePhone": "office phone number from your knowledge, or null if unsure",
   "summary": "One sentence describing the concern and why it matters",
-  "script": "Plain-text call script under 280 characters. Open with: Hi, I am a constituent calling about [issue]. End with a specific ask."
+  "script": "Plain-text call script under 280 characters. Start: Hi, I am a constituent calling about [issue]. End with a specific ask."
 }`,
         messages: [
           {
             role: "user",
-            content: `Constituent concern: ${body}\n\nRepresentatives:\n${repList.join("\n")}`,
+            content: `Concern: ${body}`,
           },
         ],
       },
@@ -85,7 +58,7 @@ Respond ONLY with valid JSON — no explanation, no markdown — in this exact f
 
     const result = JSON.parse(claudeRes.data.content[0].text);
 
-    const msg1 = `${result.repName}, ${result.repTitle}${result.officePhone ? ` — ${result.officePhone}` : ""}.\n\n${result.summary}`;
+    const msg1 = `${result.repName}, ${result.repTitle}${result.officePhone ? ` - ${result.officePhone}` : ""}.\n\n${result.summary}`;
     const msg2 = `When you call:\n"${result.script}"`;
 
     await sendSMS(from, msg1);
