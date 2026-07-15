@@ -15,26 +15,32 @@ const DIRECTORY_SUMMARY = arlingtonOfficials.map((o) =>
   `- ${o.area}: ${o.name}, ${o.title} - ${o.phone}`
 ).join("\n");
 
-const SYSTEM_PROMPT = `You are Heard, a civic SMS assistant for Arlington, MA. You help residents file service requests by collecting the right details and connecting them with the correct town official.
+const SYSTEM_PROMPT = `You are Heard, an empathetic civic guide for Arlington, MA. You help residents figure out their options for any everyday challenge - whether that's a broken sidewalk, rising grocery costs, a landlord dispute, or a question about local services. Your job is to connect people to the right resources, officials, or programs, and to make them feel heard, not turned away.
 
-SERVICE REQUEST CATEGORIES (use these to know what fields to collect):
-${CATEGORIES_SUMMARY}
+WHAT YOU HELP WITH:
+- Town service requests (potholes, trees, water/sewer, health concerns, snow, graffiti, etc.)
+- Local resources: Human Services, food programs, senior services, housing assistance, SNAP
+- Tenant rights, consumer protection, legal aid referrals
+- Connecting to local, state, and federal officials with a ready call script
+- Explaining how to engage: public comment, hearings, how to reach a rep
+- Any everyday concern a resident might not know who to ask about
 
-ARLINGTON DEPARTMENT DIRECTORY (use this to identify the correct official to contact):
-${DIRECTORY_SUMMARY}
+YOUR RESPONSE STYLE:
+Lead with empathy. If someone shares a frustration, acknowledge it before offering options. Offer 1-3 concrete next steps. Mention civic levers (officials, policy, hearings) when relevant, but don't default to them - sometimes a food pantry or benefits hotline is the better first step. Never say that something is outside what you can help with. There is always something useful to say. Use plain conversational language.
 
-YOUR BEHAVIOR:
-
-Step 1 - Categorize: When a user describes a concern, silently identify which service request category it falls under.
-
-Step 2 - Collect fields: Ask for each required field ONE AT A TIME in plain conversational language. For fields with options, list them as: "Is this 1) Option A 2) Option B 3) Option C?" Skip fields the user already mentioned. Never ask for email.
-
-Step 3 - Output: Once all required fields are collected, send one message with:
+FOR TOWN SERVICE REQUESTS:
+When a concern matches a town service category below, collect the required fields ONE AT A TIME in plain language. For fields with options, list them as: "Is this 1) Option A 2) Option B 3) Option C?" Skip fields the user already mentioned. Once all fields are collected, output:
 Line 1: Brief summary of the request (what and where).
-Line 2: The correct official name, title, and phone number from the directory above.
+Line 2: The correct official name, title, and phone from the directory below.
 Line 3: When you call: [script under 200 characters using the specific details collected]
 
-RULES: Plain ASCII text only. No markdown, no asterisks, no em dashes, no bullet points. Keep every response under 320 characters. If a concern does not clearly match a category, ask a clarifying question.`;
+ARLINGTON SERVICE REQUEST CATEGORIES:
+${CATEGORIES_SUMMARY}
+
+ARLINGTON DEPARTMENT DIRECTORY:
+${DIRECTORY_SUMMARY}
+
+RULES: Plain ASCII text only. No markdown, no asterisks, no em dashes, no bullet points. Keep every response under 320 characters. Never ask for email or zip code.`;
 
 module.exports = async function handler(req, res) {
   if (req.method === "GET") {
@@ -53,42 +59,55 @@ module.exports = async function handler(req, res) {
       token: process.env.KV_REST_API_TOKEN,
     });
 
-    // Load user record: { email, history }
-    const record = (await redis.get(from)) || { email: null, history: [] };
+    const record = (await redis.get(from)) || { zip: null, reps: [], history: [] };
 
-    // "report" resets history but keeps email
     if (body.toLowerCase() === "report") {
-      await redis.set(from, { email: record.email, history: [] });
-      await sendSMS(from, "Hi, I'm Heard! Msg & data rates may apply. Reply STOP to opt out.\n\nDescribe a town concern and I'll help you file it with the right Arlington official.");
+      await redis.set(from, { zip: record.zip, reps: record.reps, history: [] });
+      await sendSMS(from, "Starting fresh. What's on your mind? A concern, a question, or anything you could use help with.");
       return res.status(200).send("OK");
     }
 
-    // Email gate — ask once, store forever
-    if (!record.email) {
-      const emailMatch = body.match(/[^\s@]+@[^\s@]+\.[^\s@]+/);
-      if (emailMatch) {
-        const email = emailMatch[0];
-        await redis.set(from, { email, history: [] });
-        await sendSMS(from, `Got it! Now describe your concern and I'll help you file it with the right Arlington official.`);
+    if (!record.zip) {
+      const zipMatch = body.match(/\b\d{5}\b/);
+      if (zipMatch) {
+        const zip = zipMatch[0];
+        let reps = [];
+        try {
+          const repsRes = await axios.get(`https://api.5calls.org/v1/reps?location=${zip}`);
+          reps = (repsRes.data.representatives || []).map((r) => ({
+            name: r.name,
+            area: r.area,
+            phone: r.phone,
+          }));
+        } catch (e) {
+          console.error("5 Calls API error:", e.message);
+        }
+        await redis.set(from, { zip, reps, history: [] });
+        await sendSMS(from, "Got it! What's on your mind? A concern, a question, or anything you could use help with.");
       } else {
-        await sendSMS(from, "Welcome to Heard! To file service requests, I need your email address first. What is it?");
+        await sendSMS(from, "Hi, I'm Heard - a guide for Arlington, MA residents. Msg & data rates may apply. Reply STOP to opt out. What's your zip code?");
       }
       return res.status(200).send("OK");
     }
 
-    // Build conversation history, capped at last 10 messages
+    const REPS_LINE = record.reps && record.reps.length > 0
+      ? "\n\nYOUR STATE AND FEDERAL REPS:\n" +
+        record.reps.map((r) => `- ${r.name} (${r.area}): ${r.phone}`).join("\n")
+      : "";
+
+    const fullPrompt = SYSTEM_PROMPT + REPS_LINE;
+
     const updatedHistory = [
       ...record.history,
       { role: "user", content: body },
     ].slice(-10);
 
-    // Call Claude with full conversation history
     const claudeRes = await axios.post(
       "https://api.anthropic.com/v1/messages",
       {
         model: "claude-sonnet-4-6",
         max_tokens: 500,
-        system: SYSTEM_PROMPT,
+        system: fullPrompt,
         messages: updatedHistory,
       },
       {
@@ -102,9 +121,9 @@ module.exports = async function handler(req, res) {
 
     const reply = claudeRes.data.content[0].text;
 
-    // Save updated history with Claude's reply
     await redis.set(from, {
-      email: record.email,
+      zip: record.zip,
+      reps: record.reps,
       history: [...updatedHistory, { role: "assistant", content: reply }].slice(-10),
     });
 
