@@ -1,0 +1,151 @@
+[
+  {
+    "type": "Cemetery",
+    "description": "Report a headstone/marker in need of repair, landscaping issues, vandalism, or other cemetery concern.",
+    "requiredFields": ["Request type", "Address or plot location", "Details"],
+    "dropdownOptions": {
+      "Request type": ["Headstone/Marker Repair", "Landscaping", "Vandalism", "Other"]
+    },
+    "optionalFields": ["Name on headstone"],
+    "department": "Cemetery",
+    "contact": { "name": "Cemetery Office", "phone": "(781) 316-3276" }
+  },
+  {
+    "type": "Graffiti",
+    "description": "Report graffiti on public and/or private property.",
+    "requiredFields": ["Address", "Park, field, or facility (if applicable)", "Details"],
+    "dropdownOptions": {
+      "Park, field, or facility": ["Bikepath", "Bishop Field", "Brackett School", "Buck Field", "Buzzell Field", "Crosby School/Tennis Courts", "Cutter School", "Florence/Dallin School", "Gibbs Gym", "Hardy", "Hibbert St.", "Hill's Hill", "Hurd/Reservoir", "Locke School Playground", "Lussiano", "Magnolia", "McClennen Park", "Menotomy Rocks Park", "Mt. Gilboa", "Ottoson School", "Parallel", "Parmenter", "Peirce School", "Poet's Corner", "Reservoir Beach", "Robbins Farm", "Scannell Field", "Spy Pond Field", "Spy Pond Park", "Stratton School", "Summer Street", "Thorndike", "Turkey Hill", "W.A. Peirce/AHS", "Other"]
+    },
+    "optionalFields": [],
+    "department": "Natural Resources - Parks",
+    "contact": { "name": "Kevin Naughton, Parks Supervisor", "phone": "(781) 316-3301" }
+  },
+  {
+    "type": "Health Department",
+    "description": "Report a public health concern (food, tobacco, environmental, noise, rodents, or disease), request an inspection, or make a general public health request.",
+    "requiredFields": ["Address", "Property type", "Details"],
+    "dropdownOptions": {
+      "Property type": ["Public", "Business", "Residence - Apartment", "Residence - House", "Not Sure", "Not Applicable"]
+    },
+    "optionalFields": ["Name of business (if applicable)", "Category of health concern"],
+    "department": "Public Health",
+    "contact": { "name": "Kylee Foley, Public Health Director", "phone": "(781) 316-3170" }
+  },
+  {
+    "type": "Parks, Playgrounds, Bike Path",
+    "description": "Share a concern about a park, playground, field, or bike path. Report vandalism.",
+    "requiredFields": ["Address", "Park, field, or facility (if known)", "Nature of concern", "Details"],
+    "dropdownOptions": {
+      "Park, field, or facility": ["Bikepath", "Bishop Field", "Brackett School", "Buck Field", "Buzzell Field", "Crosby School/Tennis Courts", "Cutter School", "Florence/Dallin School", "Gibbs Gym", "Hardy", "Hibbert St.", "Hill's Hill", "Hurd/Reservoir", "Locke School Playground", "Lussiano", "Magnolia", "McClennen Park", "Menotomy Rocks Park", "Mt. Gilboa", "Ottoson School", "Parallel", "Parmenter", "Peirce School", "Poet's Corner", "Reservoir Beach", "Robbins Farm", "Scannell Field", "Spy Pond Field", "Spy Pond Park", "Stratton School", "Summer Street", "Thorndike", "Turkey Hill", "W.A. Peirce/AHS", "Other"]
+    },
+    "optionalFields": [],
+    "department": "Natural Resources - Parks",
+    "contact": { "name": "Kevin Naughton, Parks Supervisor", "phone": "(781) 316-3301" }
+  },
+  {
+    "type": "Public Works",
+    "description": "Request information or make a general Public Works request not covered by a more specific category.",
+    "requiredFields": ["Address", "Details"],
+    "dropdownOptions": {},
+    "optionalFields": [],
+    "department": "Public Works - Administration",
+    "contact": { "name": "Michael Rademacher, Director of Public Works", "phone": "(781) 316-3104" }
+  },
+  {
+    "type": "Recreation Facility Concern",
+    "description": "Share a concern about the Ed Burns Arena, Spray Pool, Gibbs Gym, or Reservoir Beach.",
+    "requiredFields": ["Facility", "Details"],
+    "dropdownOptions": {
+      "Facility": ["Gibbs Gym", "Reservoir Beach", "Spray Pool", "Veterans' Memorial Rink"]
+    },
+    "optionalFields": [],
+    "department": "Recreation",
+    "contact": { "name": "Natasha Waden, Recreation Director", "phone": "(781) 316-3880" }
+  },
+  {
+    "type": "Select Board",
+    "description": "Request information, ask questions, or request an item to be placed on the agenda for an upcoming Select Board meeting.",
+    "requiredFields": ["Details"],
+    "dropdownOptions": {},
+    "optionalFields": [],
+    "department": "Select Board",
+    "contact": { "name": "Ashley Maher, Select Board Administrator", "phone": "(781) 316-3020" }
+  },
+  {
+    "type": "Snow & Ice",
+    "description": "Report missing snow plow service, icy conditions, snow plow damage, or other snow and ice issues on public roadways.",
+    "requiredFields": ["Address", "Request type", "Details"],
+    "dropdownOptions": {
+      "Request type": ["Request for snow plowing", "Refill sand barrel", "Report icy conditions", "Report snow plow damage", "Other snow & ice concern"]
+    },
+    "optionalFields": [],
+    "department": "Highway Division",
+    "contact": { "name": "Jeff Rikeman, Highway Supervisor", "phone": "(781) 316-3301" }
+  },
+  {
+    "type": "Snow & Ice Violation",
+    "description": "Report a violation of Town bylaws regarding snow and ice removal after a storm (unshoveled sidewalks, pushing snow into the street).",
+    "requiredFields": ["Address", "Property type", "Details"],
+    "dropdownOptions": {
+      "Property type": ["Public", "Business", "Residence - Apartment", "Residence - House", "Not Sure", "Not Applicable"]
+    },
+    "optionalFields": ["Name of business (if applicable)"],
+    "department": "Inspectional Services",
+    "contact": { "name": "Michael Ciampa, Inspectional Services Director", "phone": "(781) 316-3386" }
+  },
+  {
+    "type": "Street & Road Maintenance",
+    "description": "Report potholes, uneven or damaged sidewalks, debris in street, or other street and road maintenance issues.",
+    "requiredFields": ["Address", "Issue type", "Details"],
+    "dropdownOptions": {
+      "Issue type": ["Pothole", "Debris in street or road", "Uneven sidewalk", "Other street & road concern"]
+    },
+    "optionalFields": [],
+    "department": "Highway Division",
+    "contact": { "name": "Jeff Rikeman, Highway Supervisor", "phone": "(781) 316-3301" }
+  },
+  {
+    "type": "Street Signs",
+    "description": "Report missing or damaged street and traffic signs or other sign-related issues.",
+    "requiredFields": ["Concern type", "Sign description", "Street, intersection, or general area", "Details"],
+    "dropdownOptions": {
+      "Concern type": ["Missing/damaged street or traffic sign", "Other signage concern"]
+    },
+    "optionalFields": [],
+    "department": "Engineering Division",
+    "contact": { "name": "Bill Copithorne, Town Engineer", "phone": "(781) 316-3320" }
+  },
+  {
+    "type": "Trees",
+    "description": "Report damaged or diseased Town trees, or request planting of a street tree.",
+    "requiredFields": ["Address", "Request type", "Details"],
+    "dropdownOptions": {
+      "Request type": ["Request tree trimming", "Check tree condition (dead tree, disease)", "Planting request", "Other tree request"]
+    },
+    "optionalFields": ["Is tree location under utility wires?"],
+    "department": "Natural Resources - Trees",
+    "contact": { "name": "Tim Lecuivre, Tree Warden", "phone": "(781) 316-3301" }
+  },
+  {
+    "type": "Water & Sewer",
+    "description": "Report dirty water, street leaks, water damage, sewer back-ups, odor, or other water and sewer issues.",
+    "requiredFields": ["Address", "Issue type", "Property type", "Details"],
+    "dropdownOptions": {
+      "Issue type": ["Dirty Water", "Street Leaks", "Water Damage", "Sewer back-ups", "Sewer Odor", "Other water & sewer concern"],
+      "Property type": ["Public", "Business", "Residence - Apartment", "Residence - House", "Not Sure", "Not Applicable"]
+    },
+    "optionalFields": ["Name of business (if applicable)"],
+    "department": "Water/Sewer Division",
+    "contact": { "name": "Bryan Mount, Water/Sewer Supervisor", "phone": "(781) 316-3301" }
+  },
+  {
+    "type": "Website",
+    "description": "Report broken links, missing files, or request content to be added to the Town's website.",
+    "requiredFields": ["Short description or URL of concern", "Details"],
+    "dropdownOptions": {},
+    "optionalFields": [],
+    "department": "Information Technology",
+    "contact": { "name": "Patricia Sheppard, Chief Information Officer", "phone": "(781) 316-3373" }
+  }
+]
