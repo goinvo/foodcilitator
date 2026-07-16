@@ -66,6 +66,13 @@ module.exports = async function handler(req, res) {
     const record = (await redis.get(from)) || { name: null, address: null, zip: null, reps: [], history: [] };
 
     if (body.toLowerCase() === "report") {
+      await redis.set(from, { name: null, address: null, zip: null, reps: [], history: [] });
+      await sendSMS(from, "Hi, I'm Heard, Arlington's civic guide. I'm here to help you figure out who to call, what programs exist, and how to get things done in town. Msg & data rates may apply. Reply HELP for help or STOP to opt out.");
+      await sendSMS(from, "To connect you to the right people, reply with your full name and mailing address in one message.");
+      return res.status(200).send("OK");
+    }
+
+    if (body.toLowerCase() === "reset") {
       await redis.set(from, { name: record.name, address: record.address, zip: record.zip, reps: record.reps, history: [] });
       await sendSMS(from, "Starting fresh. What's on your mind?");
       return res.status(200).send("OK");
@@ -99,8 +106,7 @@ module.exports = async function handler(req, res) {
         await redis.set(from, { name: fullName, address: body, zip, reps, history: [] });
         await sendSMS(from, `Thanks, ${firstName}! What's on your mind? A concern, a question, or anything you could use help with.`);
       } else {
-        await sendSMS(from, "Hi, I'm Heard! Msg & data rates may apply. Message frequency varies. Reply HELP for help or STOP to stop.");
-        await sendSMS(from, "To connect you with the right people, reply with your full name and mailing address in one message.");
+        await sendSMS(from, "Text REPORT to get started.");
       }
       return res.status(200).send("OK");
     }
