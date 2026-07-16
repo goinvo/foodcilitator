@@ -15,7 +15,7 @@ const DIRECTORY_SUMMARY = arlingtonOfficials.map((o) =>
   `- ${o.area}: ${o.name}, ${o.title} - ${o.phone}`
 ).join("\n");
 
-const SYSTEM_PROMPT = `You are Heard, an empathetic civic guide for Arlington, MA. You help residents figure out their options for any everyday challenge - whether that's a broken sidewalk, rising grocery costs, a landlord dispute, or a question about local services. Your job is to connect people to the right resources, officials, or programs, and to make them feel heard, not turned away.
+const SYSTEM_PROMPT = `You are Heard, an empathetic civic guide for Arlington, MA. You help residents figure out their options for any everyday challenge - whether that is a broken sidewalk, rising grocery costs, a landlord dispute, or a question about local services. Your job is to connect people to the right resources, officials, or programs, and to make them feel heard, not turned away.
 
 WHAT YOU HELP WITH:
 - Town service requests (potholes, trees, water/sewer, health concerns, snow, graffiti, etc.)
@@ -26,13 +26,10 @@ WHAT YOU HELP WITH:
 - Any everyday concern a resident might not know who to ask about
 
 YOUR RESPONSE STYLE:
-Lead with empathy. If someone shares a frustration, acknowledge it before offering options. Offer 1-3 concrete next steps. Mention civic levers (officials, policy, hearings) when relevant, but don't default to them - sometimes a food pantry or benefits hotline is the better first step. Never say that something is outside what you can help with. There is always something useful to say. Use plain conversational language.
+Lead with empathy. If someone shares a frustration, acknowledge it before offering options. Offer 1-3 concrete next steps. Mention civic levers (officials, policy, hearings) when relevant, but do not default to them - sometimes a food pantry or benefits hotline is the better first step. Never say that something is outside what you can help with. There is always something useful to say. Use plain conversational language.
 
 FOR TOWN SERVICE REQUESTS:
-When a concern matches a town service category below, collect the required fields ONE AT A TIME in plain language. For fields with options, list them as: "Is this 1) Option A 2) Option B 3) Option C?" Skip fields the user already mentioned. Once all fields are collected, output:
-Line 1: Brief summary of the request (what and where).
-Line 2: The correct official name, title, and phone from the directory below.
-Line 3: When you call: [script under 200 characters using the specific details collected]
+When a concern matches a town service category below, collect the required fields ONE AT A TIME in plain language. For fields with options, list them as: "Is this 1) Option A 2) Option B 3) Option C?" Skip fields the user already mentioned. Once all fields are collected, output the call script as described below.
 
 ARLINGTON SERVICE REQUEST CATEGORIES:
 ${CATEGORIES_SUMMARY}
@@ -40,7 +37,14 @@ ${CATEGORIES_SUMMARY}
 ARLINGTON DEPARTMENT DIRECTORY:
 ${DIRECTORY_SUMMARY}
 
-RULES: Plain ASCII text only. No markdown, no asterisks, no em dashes, no bullet points. Keep every response under 320 characters. Never ask for email or zip code.`;
+CALL SCRIPT FORMAT (use when the user is ready to reach out to an official):
+Line 1: Official name, title, and phone number from the directory above.
+Line 2: Script: a verbatim opener using ONLY what the user has said. Do not add details, assumptions, or context the user did not provide. Use the user's name and address from their profile below. Format: Script: "Hi, my name is [Name] and I live at [Address]. I'm calling about [restate user's exact description of the issue]."
+Line 3: Talking points: a short numbered list of general prompts to help the user think before calling. These are thinking prompts, not a recap of what the user already said. Use: 1) How has this affected you? 2) What would you like to happen? 3) How long has this been going on?
+
+The call script output can be longer than 320 characters - Twilio will split it automatically. Keep all other conversational replies under 320 characters.
+
+RULES: Plain ASCII text only. No markdown, no asterisks, no em dashes, no bullet points. Never ask for name, address, zip, or email - these are already stored.`;
 
 module.exports = async function handler(req, res) {
   if (req.method === "GET") {
@@ -59,43 +63,56 @@ module.exports = async function handler(req, res) {
       token: process.env.KV_REST_API_TOKEN,
     });
 
-    const record = (await redis.get(from)) || { zip: null, reps: [], history: [] };
+    const record = (await redis.get(from)) || { name: null, address: null, zip: null, reps: [], history: [] };
 
     if (body.toLowerCase() === "report") {
-      await redis.set(from, { zip: record.zip, reps: record.reps, history: [] });
-      await sendSMS(from, "Starting fresh. What's on your mind? A concern, a question, or anything you could use help with.");
+      await redis.set(from, { name: record.name, address: record.address, zip: record.zip, reps: record.reps, history: [] });
+      await sendSMS(from, "Starting fresh. What's on your mind?");
       return res.status(200).send("OK");
     }
 
-    if (!record.zip) {
-      const zipMatch = body.match(/\b\d{5}\b/);
-      if (zipMatch) {
-        const zip = zipMatch[0];
+    if (!record.address) {
+      // Heuristic: a name + address reply contains a digit (street number)
+      const hasAddress = /\d/.test(body) && body.length > 10;
+      if (hasAddress) {
+        const zipMatch = body.match(/\b\d{5}\b/);
+        const zip = zipMatch ? zipMatch[0] : null;
+        // Extract first name: take text before the first digit, strip trailing comma/space
+        const namePart = body.split(/\d/)[0].trim().replace(/,\s*$/, "").trim();
+        const firstName = namePart.split(/\s+/)[0] || "there";
+        const fullName = namePart || "there";
+
         let reps = [];
-        try {
-          const repsRes = await axios.get(`https://api.5calls.org/v1/reps?location=${zip}`);
-          reps = (repsRes.data.representatives || []).map((r) => ({
-            name: r.name,
-            area: r.area,
-            phone: r.phone,
-          }));
-        } catch (e) {
-          console.error("5 Calls API error:", e.message);
+        if (zip) {
+          try {
+            const repsRes = await axios.get(`https://api.5calls.org/v1/reps?location=${zip}`);
+            reps = (repsRes.data.representatives || []).map((r) => ({
+              name: r.name,
+              area: r.area,
+              phone: r.phone,
+            }));
+          } catch (e) {
+            console.error("5 Calls API error:", e.message);
+          }
         }
-        await redis.set(from, { zip, reps, history: [] });
-        await sendSMS(from, "Got it! What's on your mind? A concern, a question, or anything you could use help with.");
+
+        await redis.set(from, { name: fullName, address: body, zip, reps, history: [] });
+        await sendSMS(from, `Thanks, ${firstName}! What's on your mind? A concern, a question, or anything you could use help with.`);
       } else {
-        await sendSMS(from, "Hi, I'm Heard - a guide for Arlington, MA residents. Msg & data rates may apply. Reply STOP to opt out. What's your zip code?");
+        await sendSMS(from, "Hi, I'm Heard! Msg & data rates may apply. Message frequency varies. Reply HELP for help or STOP to stop.");
+        await sendSMS(from, "To connect you with the right people, reply with your full name and mailing address in one message.");
       }
       return res.status(200).send("OK");
     }
 
+    const USER_PROFILE = `USER PROFILE:\nName: ${record.name}\nAddress: ${record.address}`;
+
     const REPS_LINE = record.reps && record.reps.length > 0
-      ? "\n\nYOUR STATE AND FEDERAL REPS:\n" +
+      ? "\n\nSTATE AND FEDERAL REPS FOR THIS USER:\n" +
         record.reps.map((r) => `- ${r.name} (${r.area}): ${r.phone}`).join("\n")
       : "";
 
-    const fullPrompt = SYSTEM_PROMPT + REPS_LINE;
+    const fullPrompt = SYSTEM_PROMPT + "\n\n" + USER_PROFILE + REPS_LINE;
 
     const updatedHistory = [
       ...record.history,
@@ -122,6 +139,8 @@ module.exports = async function handler(req, res) {
     const reply = claudeRes.data.content[0].text;
 
     await redis.set(from, {
+      name: record.name,
+      address: record.address,
       zip: record.zip,
       reps: record.reps,
       history: [...updatedHistory, { role: "assistant", content: reply }].slice(-10),
