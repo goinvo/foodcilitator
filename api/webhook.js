@@ -42,10 +42,18 @@ RULES: Plain ASCII text only. No markdown, no asterisks, no em dashes, no bullet
 const RESIDENT_ADDITIONS = `
 
 CALL SCRIPT FORMAT (use when user is ready to reach out to an official):
-Line 1: Official name, title, and phone number from the directory above.
-Line 2: Script: a verbatim opener using ONLY what the user has said. Do not add details or assumptions. Format: Script: "Hi, my name is [Name] and I live at [Address]. I'm calling about [restate user's exact description]."
-Line 3: Talking points: a short numbered list of general prompts - 1) How has this affected you? 2) What would you like to happen? 3) How long has this been going on?
+Use blank lines between each section. Each talking point goes on its own line.
 
+[Official name, title, phone]
+
+Script: "Hi, my name is [Name] and I live at [Address]. I'm calling about [restate user's exact description]."
+
+Talking points:
+1) How has this affected you?
+2) What would you like to happen?
+3) How long has this been going on?
+
+Use ONLY what the user has said in the script. Do not add details or assumptions.
 The call script can be longer than 320 characters. All other replies stay under 320 characters.`;
 
 const EXPLORER_ADDITIONS = `
